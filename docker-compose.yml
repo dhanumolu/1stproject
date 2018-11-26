@@ -1,0 +1,28 @@
+version: '3'
+services:
+# Service Name
+ redis-server:
+# Image Name to run the container  
+  image: 'redis'
+ node-app:
+# Build Details. Either you can provide . to search pwd  for the Dockerfile.yml. Ex: build: .
+  build: 
+# Below flags are used to specify the location of the folder and name of the docker file if its different from standard Dockerfile.yml
+   context: <Folder Name or directory path> 
+   dockerfile: <Dockerfile Name>   
+# To map container port with server running container
+  ports:
+   - "8081:8081"
+# Volumes mount of the server to the container. 1st line to bookmark on the container. 2nd line to map the pwd on the server to /app of container
+   - /app/node_modules     
+   - .:/app
+# 2nd container. Test container
+   tests:
+     build:
+      context: .
+      dockerfile: Dockerfile.dev
+     volumes:  
+      - /app/node_modules
+      - .:/app   
+     command: ["npm","run","test"]      
+       
