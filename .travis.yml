@@ -1,0 +1,11 @@
+sudo: required
+services:
+ - docker
+
+before_install:
+ - docker build -t dhanumolu/1stproject -f Dockerfile.dev .
+
+script:
+## -- --coverage is to exit the test run 
+ - docker run dhanumolu/1stproject npm run test -- --coverage
+
